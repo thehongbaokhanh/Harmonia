@@ -25,5 +25,5 @@ public class Favorite {
     @JoinColumn(name = "song_id")
     private Song song;
 
-    private LocalDateTime createdAt;
+    private LocalDateTime created_at;
 }

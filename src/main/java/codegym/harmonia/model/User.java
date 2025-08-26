@@ -25,7 +25,7 @@ public class User {
     private UserRole role;
 
     private String avatar;
-    private LocalDateTime createAt;
+    private LocalDateTime create_at;
 
     // 1-N: 1 nghệ sĩ có thể sáng tác nhiều bài hát
     @OneToMany(mappedBy = "artist", cascade = CascadeType.ALL, orphanRemoval = true)
