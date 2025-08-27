@@ -6,11 +6,12 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface IFavoritedRepository extends JpaRepository<Favorite, Long> {
-    List<Favorite> findByIdUserId(Long userId);
 
-    List<Favorite> findByIdSongId(Long songId);
+    List<Favorite> findById_UserId(Long userId);
 
-    boolean existsByUserIdAndSongId(Long userId, Long songId);
+    List<Favorite> findById_SongId(Long songId);
 
-    void deleteByUserIdAndSongId(Long userId, Long songId);
+    boolean existsById_UserIdAndId_SongId(Long userId, Long songId);
+
+    void deleteById_UserIdAndId_SongId(Long userId, Long songId);
 }
