@@ -13,6 +13,7 @@ import java.util.List;
 
 @RestController
 public class favoritecontroller {
+
     @Autowired
     private IFavoriteService favoriteService;
 
