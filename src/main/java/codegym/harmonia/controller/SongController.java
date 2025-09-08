@@ -29,7 +29,7 @@ public class SongController {
         }
     }
 
-    @PostMapping
+    @PostMapping("/song")
     public ResponseEntity<Song> save(Song song) {
         return new ResponseEntity<>(songService.save(song), HttpStatus.CREATED);
     }
