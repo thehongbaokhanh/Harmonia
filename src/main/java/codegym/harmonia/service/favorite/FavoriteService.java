@@ -14,17 +14,17 @@ public class FavoriteService implements IFavoriteService {
 
     @Override
     public List<Favorite> findByUserId(Long id) {
-        return favoritedRepository.findByIdUserId(id);
+        return favoritedRepository.findById_UserId(id);
     }
 
     @Override
     public boolean existed(Long userId, Long songId) {
-        return favoritedRepository.existsByUserIdAndSongId(userId, songId);
+        return favoritedRepository.existsById_UserIdAndId_SongId(userId, songId);
     }
 
     @Override
     public void delete(Long userId, Long songId) {
-        favoritedRepository.deleteByUserIdAndSongId(userId, songId);
+        favoritedRepository.deleteById_UserIdAndId_SongId(userId, songId);
     }
 
     @Override
@@ -38,8 +38,8 @@ public class FavoriteService implements IFavoriteService {
     }
 
     @Override
-    public void save(Favorite favorite) {
-        favoritedRepository.save(favorite);
+    public Favorite save(Favorite favorite) {
+        return favoritedRepository.save(favorite);
     }
 
     @Override

@@ -15,7 +15,6 @@ public class Song {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long songId;
-
     private String title;
     private String file;
     private String cover;

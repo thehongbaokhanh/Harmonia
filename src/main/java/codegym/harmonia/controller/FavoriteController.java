@@ -12,7 +12,8 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
-public class favoritecontroller {
+public class FavoriteController {
+
     @Autowired
     private IFavoriteService favoriteService;
 
