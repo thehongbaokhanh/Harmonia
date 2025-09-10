@@ -8,12 +8,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/homeWorkSpace")
-//@CrossOrigin(Origin = "http://localhost:3000")
+@CrossOrigin(origins = {"http://localhost:3000", "http://localhost:3001"})
 public class SongController {
     @Autowired
     private ISongService songService;
@@ -23,6 +27,22 @@ public class SongController {
         return ResponseEntity.ok(songService.getAllSongs());
     }
 
+//    @PostMapping("/upload")
+//    public ResponseEntity<?> uploadSong(@RequestParam("file") MultipartFile file) {
+//        if (file.isEmpty()) {
+//            return ResponseEntity.badRequest().body("File rỗng, vui lòng chọn file mp3.");
+//        }
+//
+//        try {
+//            // Trả file trực tiếp về client (không lưu vào server)
+//            return ResponseEntity.ok()
+//                    .header("Content-Disposition", "attachment; filename=\"" + file.getOriginalFilename() + "\"")
+//                    .body(file.getBytes());
+//        } catch (IOException e) {
+//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+//                    .body("Lỗi khi đọc file: " + e.getMessage());
+//        }
+//    }
 
     @PostMapping("/save")
     public ResponseEntity<?> saveSong(@RequestBody SongRequest songRequest) {
