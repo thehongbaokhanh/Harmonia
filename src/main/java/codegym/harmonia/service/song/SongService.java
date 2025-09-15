@@ -60,9 +60,11 @@ public class SongService implements ISongService {
 
     @Override
     public Song save(SongRequest songRequest) {
+        System.out.println(songRequest.getArtistId());
         User artist = authenticateRepository.findById(songRequest.getArtistId())
-                .orElseThrow(() -> new RuntimeException("Artist not found"));
-        System.out.println(artist);
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        System.out.println(artist.getUserId());
 
         if (artist.getRole() != UserRole.ARTIST) {
             throw new RuntimeException("User is not an ARTIST");
@@ -77,7 +79,7 @@ public class SongService implements ISongService {
             song.setCover(songRequest.getCover());
             song.setPlayCount(songRequest.getPlayCount());
             song.setArtist(artist);
-        } else {
+        } else {    
             song = Song.builder()
                     .title(songRequest.getTitle())
                     .file(songRequest.getFile())
