@@ -29,14 +29,33 @@ public class SongService implements ISongService {
                 .map(song -> new SongDTO(
                         song.getSongId(),
                         song.getTitle(),
+                        "/uploads/" + song.getFile(),  // ✅ đường dẫn file
+                        song.getCover(),
+                        song.getPlayCount(),
+                        song.getCreatedAt(),
+                        song.getArtist().getUsername(),
+                        song.getDuration()
+                ))
+                .toList();
+    }
+
+
+    @Override
+    public SongDTO findSongById(Long id) {
+        return songRepository.findById(id)
+                .map(song -> new SongDTO(
+                        song.getSongId(),
+                        song.getTitle(),
                         song.getFile(),
                         song.getCover(),
                         song.getPlayCount(),
                         song.getCreatedAt(),
-                        song.getArtist().getUsername()
+                        song.getArtist().getUsername(),
+                        song.getDuration()
                 ))
-                .toList();
+                .orElse(null);
     }
+
 
     @Override
     public List<Song> findAll() {

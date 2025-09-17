@@ -10,4 +10,5 @@ import java.util.List;
 public interface ISongService extends IGeneralService<Song> {
     Song save(SongRequest songRequest);
     List<SongDTO> getAllSongs();
+    SongDTO findSongById(Long id);
 }

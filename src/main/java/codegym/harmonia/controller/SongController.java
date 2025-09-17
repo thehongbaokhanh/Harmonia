@@ -1,5 +1,5 @@
 package codegym.harmonia.controller;
-
+import org.springframework.web.bind.annotation.CrossOrigin;
 import codegym.harmonia.model.DTO.SongDTO;
 import codegym.harmonia.model.Song;
 import codegym.harmonia.model.SongRequest;
@@ -13,7 +13,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/homeWorkSpace")
-@CrossOrigin(origins = {"http://localhost:3000", "http://localhost:3001"})
+@CrossOrigin(origins = {"http://localhost:3000", "http://localhost:3001","http://localhost:3002"})
 public class SongController {
     @Autowired
     private ISongService songService;
@@ -21,6 +21,15 @@ public class SongController {
     @GetMapping
     public ResponseEntity<List<SongDTO>> findAll() {
         return ResponseEntity.ok(songService.getAllSongs());
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<SongDTO> findById(@PathVariable Long id) {
+        SongDTO song = songService.findSongById(id);
+        if (song == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+        return ResponseEntity.ok(song);
     }
 
 

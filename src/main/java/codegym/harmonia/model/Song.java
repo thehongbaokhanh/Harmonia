@@ -21,6 +21,7 @@ public class Song {
     private Integer playCount;
 
     private LocalDateTime createdAt;
+    private Integer duration;
 
     // N-1: một bài hát phải thuộc về 1 nghệ sĩ (User có role=ARTIST)
     @ManyToOne
