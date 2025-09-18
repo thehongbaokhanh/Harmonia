@@ -51,6 +51,10 @@ public class AuthenticateController {
 
     @PostMapping("/save")
     public ResponseEntity<User> save(@RequestBody User user) {
+        if (user.getUserId() != null) {
+            return new ResponseEntity<>(authenticateService.save(user), HttpStatus.OK);
+        }
+        user.setCreateAt( java.time.LocalDateTime.now());
         return new ResponseEntity<>(authenticateService.save(user), HttpStatus.CREATED);
     }
 }
