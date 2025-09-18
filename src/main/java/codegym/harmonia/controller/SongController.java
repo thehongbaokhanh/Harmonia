@@ -108,10 +108,34 @@ public class SongController {
         headers.set(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=\"" + song.getFile() + "\"");
         headers.set(HttpHeaders.CONTENT_TYPE, song.getContentType() != null ? song.getContentType() : "audio/mpeg");
         headers.set(HttpHeaders.CONTENT_LENGTH, String.valueOf(song.getSize()));
+        headers.set("Access-Control-Allow-Origin", "*");
+        headers.set("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
+        headers.set("Access-Control-Allow-Headers", "Content-Type, Range");
 
         // 4️⃣ Trả về ResponseEntity
         return ResponseEntity.ok()
                 .headers(headers)
                 .body(resource);
+    }
+
+    @GetMapping("/cover/{filename}")
+    public ResponseEntity<Resource> getCover(@PathVariable String filename) {
+        try {
+            Resource resource = songService.loadAsResource(filename, true);
+            
+            HttpHeaders headers = new HttpHeaders();
+            headers.set(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=\"" + filename + "\"");
+            headers.set(HttpHeaders.CONTENT_TYPE, "image/jpeg");
+            headers.setCacheControl("max-age=3600");
+            headers.set("Access-Control-Allow-Origin", "*");
+            headers.set("Access-Control-Allow-Methods", "GET, OPTIONS");
+            headers.set("Access-Control-Allow-Headers", "Content-Type");
+            
+            return ResponseEntity.ok()
+                    .headers(headers)
+                    .body(resource);
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
     }
 }
