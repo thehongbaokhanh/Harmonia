@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Thêm / Sửa bài hát - Admin</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 text-gray-800">
+<div class="min-h-screen flex">
+    <aside class="w-64 bg-white border-r p-4 hidden md:block">
+        <div class="mb-6">
+            <div class="font-semibold text-lg">Harmonia Admin</div>
+            <div class="text-xs text-gray-500">Quản trị</div>
+        </div>
+        <nav class="space-y-1 text-sm">
+            <a th:href="@{/admin/songs}" class="block px-3 py-2 rounded hover:bg-gray-50">Quản lý bài hát</a>
+            <a th:href="@{/admin/artists}" class="block px-3 py-2 rounded hover:bg-gray-50">Nghệ sĩ</a>
+        </nav>
+    </aside>
+
+    <div class="flex-1 p-6">
+        <div class="max-w-3xl bg-white rounded shadow p-6">
+            <h2 class="text-xl font-semibold mb-4" th:text="${song.songId} == null ? 'Thêm bài hát mới' : 'Sửa bài hát'">Thêm bài hát</h2>
+
+            <form th:action="@{/admin/songs/save}" th:object="${song}" method="post" enctype="multipart/form-data" class="space-y-4">
+                <input type="hidden" th:field="*{songId}" />
+
+                <div>
+                    <label class="block text-sm font-medium mb-1">Tiêu đề</label>
+                    <input type="text" th:field="*{title}" class="w-full border rounded px-3 py-2" required />
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium mb-1">File nhạc (upload hoặc đường dẫn)</label>
+                    <div class="flex gap-3">
+                        <input type="file" name="audioFile" accept="audio/*" class="border rounded px-3 py-2" />
+                        <input type="text" th:field="*{file}" placeholder="Hoặc nhập đường dẫn /uploads/.." class="w-full border rounded px-3 py-2" />
+                    </div>
+                    <p class="text-xs text-gray-500 mt-1">Nếu upload, server sẽ lưu file vào /uploads và cập nhật trường file.</p>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium mb-1">Ảnh bìa (URL)</label>
+                    <input type="text" th:field="*{cover}" class="w-full border rounded px-3 py-2" />
+                </div>
+
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium mb-1">Artist ID</label>
+                        <input type="number" th:field="*{artistId}" class="w-full border rounded px-3 py-2" />
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium mb-1">Lượt phát</label>
+                        <input type="number" th:field="*{playCount}" class="w-full border rounded px-3 py-2" />
+                    </div>
+                </div>
+
+                <div class="flex items-center gap-3 justify-end">
+                    <a th:href="@{/admin/songs}" class="px-4 py-2 border rounded">Hủy</a>
+                    <button type="submit" class="px-4 py-2 bg-indigo-600 text-white rounded">Lưu</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>

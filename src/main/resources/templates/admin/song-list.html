@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Quản lý bài hát - Admin</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 text-gray-800">
+<div class="min-h-screen flex">
+    <!-- For simplicity this page duplicates the sidebar/header visually similar to layout.html -->
+    <!-- SIDEBAR (condensed) -->
+    <aside class="w-64 bg-white border-r p-4 hidden md:block">
+        <div class="mb-6">
+            <div class="font-semibold text-lg">Harmonia Admin</div>
+            <div class="text-xs text-gray-500">Quản trị</div>
+        </div>
+        <nav class="space-y-1 text-sm">
+            <a th:href="@{/admin/songs}" class="block px-3 py-2 rounded bg-indigo-50 text-indigo-700">Quản lý bài hát</a>
+            <a th:href="@{/admin/artists}" class="block px-3 py-2 rounded hover:bg-gray-50">Nghệ sĩ</a>
+            <a th:href="@{/admin/users}" class="block px-3 py-2 rounded hover:bg-gray-50">Người dùng</a>
+        </nav>
+    </aside>
+
+    <div class="flex-1 p-6">
+        <div class="flex items-center justify-between mb-6">
+            <div>
+                <h2 class="text-2xl font-bold">Danh sách bài hát</h2>
+                <p class="text-sm text-gray-500">Quản lý, thêm, sửa hoặc xóa bài hát trong hệ thống</p>
+            </div>
+            <div class="flex items-center gap-3">
+                <a th:href="@{/admin/songs/add}" class="px-4 py-2 bg-indigo-600 text-white rounded shadow hover:opacity-95">➕ Thêm bài hát</a>
+            </div>
+        </div>
+
+        <!-- Search + filters -->
+        <div class="flex items-center gap-3 mb-4">
+            <input id="tableSearch" type="text" placeholder="Tìm theo tiêu đề hoặc nghệ sĩ" class="border rounded px-3 py-2 w-96" />
+            <select id="filterArtist" class="border rounded px-3 py-2">
+                <option value="">Tất cả nghệ sĩ</option>
+                <!-- th:each artists -->
+            </select>
+        </div>
+
+        <!-- Table -->
+        <div class="bg-white rounded shadow overflow-auto">
+            <table class="min-w-full text-sm">
+                <thead class="bg-gray-50 border-b">
+                <tr>
+                    <th class="p-3 text-left">#</th>
+                    <th class="p-3 text-left">Bài hát</th>
+                    <th class="p-3 text-left">Nghệ sĩ</th>
+                    <th class="p-3 text-left">Thời lượng</th>
+                    <th class="p-3 text-left">Lượt phát</th>
+                    <th class="p-3 text-left">Ngày tạo</th>
+                    <th class="p-3 text-left">Hành động</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="s,iterStat : ${songs}" class="border-b hover:bg-gray-50">
+                    <td class="p-3" th:text="${iterStat.index + 1}">1</td>
+                    <td class="p-3 flex items-center gap-3">
+                        <img th:src="${s.cover}" alt="cover" class="w-12 h-12 rounded object-cover" />
+                        <div>
+                            <div class="font-medium" th:text="${s.title}">Tiêu đề</div>
+                            <div class="text-xs text-gray-500" th:text="${s.file}">/uploads/song.mp3</div>
+                        </div>
+                    </td>
+                    <td class="p-3" th:text="${s.artistName}">Artist</td>
+                    <td class="p-3" th:text="${s.duration}">03:20</td>
+                    <td class="p-3" th:text="${s.playCount}">123</td>
+                    <td class="p-3" th:text="${#dates.format(s.createdAt, 'dd/MM/yyyy')}">01/09/2025</td>
+                    <td class="p-3">
+                        <a th:href="@{'/admin/songs/edit/' + ${s.songId}}" class="text-indigo-600 hover:underline mr-3">Sửa</a>
+                        <a th:href="@{'/admin/songs/delete/' + ${s.songId}}" class="text-red-600 hover:underline" onclick="return confirm('Xóa bài này?');">Xóa</a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- small scripts: client-side filter -->
+        <script>
+            (function(){
+                const tableSearch = document.getElementById('tableSearch');
+                if(!tableSearch) return;
+                tableSearch.addEventListener('input', function(e){
+                    const q = e.target.value.toLowerCase();
+                    document.querySelectorAll('tbody tr').forEach(tr => {
+                        const title = tr.querySelector('td:nth-child(2) .font-medium')?.innerText.toLowerCase() || '';
+                        const artist = tr.querySelector('td:nth-child(3)')?.innerText.toLowerCase() || '';
+                        tr.style.display = (title.includes(q) || artist.includes(q)) ? '' : 'none';
+                    });
+                });
+
+                // connect global admin search
+                window.addEventListener('admin:search', (e) => {
+                    tableSearch.value = e.detail || '';
+                    tableSearch.dispatchEvent(new Event('input'));
+                });
+            })();
+        </script>
+    </div>
+</div>
+</body>
+</html>
