@@ -23,6 +23,8 @@ public class Song {
     private String cover;
     private Integer playCount;
     private LocalDateTime createdAt;
+    private String contentType;
+    private Long size;
 
     // N-1: một bài hát phải thuộc về 1 nghệ sĩ (User có role=ARTIST)
     @ManyToOne
