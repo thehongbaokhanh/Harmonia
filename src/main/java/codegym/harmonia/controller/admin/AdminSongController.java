@@ -24,7 +24,7 @@ public class AdminSongController {
     @Autowired
     private ISongService songService;
 
-    @GetMapping("/list")
+    @GetMapping("")
     public String listSongs(Model model) {
         List<SongDTO> songs = songService.getAllSongs();
         model.addAttribute("songs", songs);

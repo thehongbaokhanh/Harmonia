@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thêm / Sửa người dùng - Admin</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 text-gray-800">
+<div class="min-h-screen flex">
+    <!-- Sidebar -->
+    <aside class="w-64 bg-white border-r p-4 hidden md:block">
+        <div class="mb-6">
+            <div class="font-semibold text-lg">Harmonia Admin</div>
+            <div class="text-xs text-gray-500">Quản trị</div>
+        </div>
+        <nav class="space-y-1 text-sm">
+            <a th:href="@{/admin/songs}" class="block px-3 py-2 rounded hover:bg-gray-50">Quản lý bài hát</a>
+            <a th:href="@{/admin/artists}" class="block px-3 py-2 rounded hover:bg-gray-50">Nghệ sĩ</a>
+            <a th:href="@{/admin/users}" class="block px-3 py-2 rounded bg-indigo-50 text-indigo-700">Người dùng</a>
+        </nav>
+    </aside>
+
+    <!-- Content -->
+    <main class="flex-1 p-6">
+        <div class="max-w-2xl bg-white rounded shadow p-6">
+            <h2 class="text-xl font-semibold mb-6"
+                th:text="${user.userId == null} ? 'Thêm người dùng' : 'Sửa người dùng'">
+                User Form
+            </h2>
+
+            <form th:action="@{/admin/users/save}" method="post" th:object="${user}" class="space-y-5">
+                <input type="hidden" th:field="*{userId}" />
+
+                <!-- Username -->
+                <div>
+                    <label class="block mb-1 font-medium">Username</label>
+                    <input type="text" th:field="*{username}"
+                           class="w-full border px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                           required />
+                </div>
+
+                <!-- Email -->
+                <div>
+                    <label class="block mb-1 font-medium">Email</label>
+                    <input type="email" th:field="*{email}"
+                           class="w-full border px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                           required />
+                </div>
+
+                <!-- Password -->
+                <div>
+                    <label class="block mb-1 font-medium">Password</label>
+                    <input type="password" th:field="*{password}"
+                           class="w-full border px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                           required />
+                </div>
+
+                <!-- Role -->
+                <div>
+                    <label class="block mb-1 font-medium">Role</label>
+                    <select th:field="*{role}"
+                            class="w-full border px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                        <option value="USER">USER</option>
+                        <option value="ARTIST">ARTIST</option>
+                        <option value="ADMIN">ADMIN</option>
+                    </select>
+                </div>
+
+                <!-- Actions -->
+                <div class="flex justify-end gap-3 pt-4">
+                    <a th:href="@{/admin/users}"
+                       class="px-4 py-2 border rounded hover:bg-gray-50 transition">
+                        Hủy
+                    </a>
+                    <button type="submit"
+                            class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 transition">
+                        Lưu
+                    </button>
+                </div>
+            </form>
+        </div>
+    </main>
+</div>
+</body>
+</html>

@@ -1,9 +1,7 @@
 package codegym.harmonia.controller.admin;
 
-
 import codegym.harmonia.model.User;
 import codegym.harmonia.model.UserRole;
-
 import codegym.harmonia.service.user.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -20,10 +18,17 @@ public class AdminArtistController {
     private IUserService userService;
 
     @GetMapping
-    public String listArtists(Model model ) {
+    public String listArtists(Model model) {
         List<User> artists = userService.findByRole(UserRole.ARTIST);
         model.addAttribute("artists", artists);
-        return "admin/artist-list";
+        return "admin/user/artist-list";
+    }
+
+    // 👉 Thêm mới nghệ sĩ
+    @GetMapping("/add")
+    public String addArtistForm(Model model) {
+        model.addAttribute("artist", new User());
+        return "admin/user/artist-form";
     }
 
     @GetMapping("/edit/{id}")
@@ -33,12 +38,12 @@ public class AdminArtistController {
             return "redirect:/admin/artists";
         }
         model.addAttribute("artist", artist);
-        return "admin/artist-form";
+        return "admin/user/artist-form";
     }
 
     @PostMapping("/save")
     public String saveArtist(@ModelAttribute User artist) {
-        artist.setRole(UserRole.ARTIST);
+        artist.setRole(UserRole.ARTIST); // đảm bảo luôn là ARTIST
         userService.save(artist);
         return "redirect:/admin/artists";
     }
@@ -49,7 +54,3 @@ public class AdminArtistController {
         return "redirect:/admin/artists";
     }
 }
-
-
-
-

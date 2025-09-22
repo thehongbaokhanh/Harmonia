@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Thêm / Sửa nghệ sĩ - Admin</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 text-gray-800">
+<div class="min-h-screen flex">
+    <!-- Sidebar -->
+    <aside class="w-64 bg-white border-r p-4 hidden md:block">
+        <div class="mb-6">
+            <div class="font-semibold text-lg">Harmonia Admin</div>
+            <div class="text-xs text-gray-500">Quản trị</div>
+        </div>
+        <nav class="space-y-1 text-sm">
+            <a th:href="@{/admin/songs}" class="block px-3 py-2 rounded hover:bg-gray-50">Quản lý bài hát</a>
+            <a th:href="@{/admin/artists}" class="block px-3 py-2 rounded bg-indigo-50 text-indigo-700">Nghệ sĩ</a>
+            <a th:href="@{/admin/users}" class="block px-3 py-2 rounded hover:bg-gray-50">Người dùng</a>
+        </nav>
+    </aside>
+
+    <!-- Content -->
+    <div class="flex-1 p-6">
+        <div class="max-w-2xl bg-white rounded shadow p-6">
+            <h2 class="text-xl font-semibold mb-4"
+                th:text="${artist.userId == null} ? 'Thêm nghệ sĩ' : 'Sửa nghệ sĩ'">
+                Thêm nghệ sĩ
+            </h2>
+
+            <form th:action="@{/admin/artists/save}" th:object="${artist}" method="post" class="space-y-4">
+                <input type="hidden" th:field="*{userId}" />
+
+                <div>
+                    <label class="block text-sm font-medium mb-1">Tên nghệ sĩ</label>
+                    <input type="text" th:field="*{username}" class="w-full border rounded px-3 py-2" required />
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium mb-1">Email</label>
+                    <input type="email" th:field="*{email}" class="w-full border rounded px-3 py-2" required />
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium mb-1">Mật khẩu</label>
+                    <input type="password" th:field="*{password}" class="w-full border rounded px-3 py-2" />
+                </div>
+
+                <div class="flex justify-end gap-3">
+                    <a th:href="@{/admin/artists}" class="px-4 py-2 border rounded">Hủy</a>
+                    <button type="submit" class="px-4 py-2 bg-indigo-600 text-white rounded">Lưu</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>
