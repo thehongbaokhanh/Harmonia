@@ -1,5 +1,6 @@
 package codegym.harmonia.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import java.time.LocalDateTime;
@@ -29,9 +30,11 @@ public class User {
 
     // 1-N: 1 nghệ sĩ có thể sáng tác nhiều bài hát
     @OneToMany(mappedBy = "artist", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore   // ⛔ Không serialize lại danh sách Song
     private List<Song> songs;
 
     // 1-N: 1 user có nhiều favorite
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore   // ⛔ Không serialize lại danh sách Favorite
     private List<Favorite> favorites;
 }

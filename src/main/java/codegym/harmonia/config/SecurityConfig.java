@@ -1,4 +1,4 @@
-package codegym.harmonia;
+package codegym.harmonia.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
