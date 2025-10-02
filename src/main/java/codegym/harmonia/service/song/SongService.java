@@ -59,12 +59,35 @@ public class SongService implements ISongService {
                         song.getSongId(),
                         song.getTitle(),
                         song.getFile(),
-                        song.getCover(),
+                        "/uploads/cover/" + song.getCover(), // Thêm prefix đúng
                         song.getPlayCount(),
                         song.getCreatedAt(),
-                        song.getArtist().getUsername()
+                        song.getArtist().getUsername(),
+                        song.getDuration()
                 ))
+
                 .toList();
+    }
+    @Override
+    public SongDTO findSongById(Long id) {
+        Optional<Song> songOptional = songRepository.findById(id);
+
+        if (songOptional.isPresent()) {
+            Song song = songOptional.get();
+
+            return new SongDTO(
+                    song.getSongId(),
+                    song.getTitle(),
+                    song.getFile(),
+                    "/uploads/cover/" + song.getCover(), // Thêm prefix
+                    song.getPlayCount(),
+                    song.getCreatedAt(),
+                    song.getArtist().getUsername(),
+                    song.getDuration()
+            );
+        } else {
+            return null; // hoặc throw exception
+        }
     }
 
     public Resource loadAsResource(String filename, boolean isCover) {
@@ -86,7 +109,7 @@ public class SongService implements ISongService {
     }
 
     @Override
-    public Optional<Song> findById(Long id) {
+    public Optional<Song>  findById(Long id) {
         return songRepository.findById(id);
     }
 
@@ -97,7 +120,7 @@ public class SongService implements ISongService {
 
     @Override
     public void delete(Long id) {
-
+        songRepository.deleteById(id);
     }
 
     @Override
@@ -110,8 +133,8 @@ public class SongService implements ISongService {
             throw new RuntimeException("User is not an ARTIST");
         }
 
-        MultipartFile file = songRequest.getFile();
-        MultipartFile cover = songRequest.getCover();
+        MultipartFile file = songRequest.getFileData();
+        MultipartFile cover = songRequest.getCoverData();
 
         String filename = null;
         String coverFilename = null;

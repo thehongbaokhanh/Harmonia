@@ -2,6 +2,7 @@ package codegym.harmonia.service.authenticate;
 
 import codegym.harmonia.model.DTO.SongSummaryDTO;
 import codegym.harmonia.model.DTO.UserDTO;
+import codegym.harmonia.model.Song;
 import codegym.harmonia.model.User;
 import codegym.harmonia.model.UserRole;
 import codegym.harmonia.repository.IAuthenticateRepository;
@@ -25,8 +26,9 @@ public class AuthenticateService implements IAuthenticateService {
 
     @Override
     public Optional<User> findById(Long id) {
-        return authenticateRepository.findById(id);
+        return Optional.empty();
     }
+
 
     @Override
     public User save(User user) {

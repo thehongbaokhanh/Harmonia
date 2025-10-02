@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Thêm / Sửa bài hát - Admin</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        'primary': '#4f46e5', // Màu Indigo
+                    }
+                }
+            }
+        }
+    </script>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50 text-gray-700 font-sans">
+<div class="min-h-screen flex">
+
+    <aside class="w-64 bg-gray-800 text-white shadow-xl flex flex-col">
+        <div class="p-6 mb-4 border-b border-gray-700">
+            <div class="font-bold text-xl text-primary">Harmonia Admin</div>
+            <div class="text-xs text-gray-400">Bảng điều khiển</div>
+        </div>
+        <nav class="flex-1 p-4 space-y-2 text-sm">
+            <a th:href="@{/admin/songs}" class="flex items-center px-4 py-2 rounded-lg bg-gray-700 text-white font-medium transition duration-150">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 mr-3" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zm0 18c-4.411 0-8-3.589-8-8s3.589-8 8-8 8 3.589 8 8-3.589 8-8 8z"/><path d="M10 15V9l6 3z"/></svg>
+                Quản lý bài hát
+            </a>
+            <a th:href="@{/admin/artists}" class="flex items-center px-4 py-2 rounded-lg text-gray-300 hover:bg-gray-700 hover:text-white transition duration-150">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 mr-3" viewBox="0 0 24 24" fill="currentColor"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+                Nghệ sĩ
+            </a>
+            <a th:href="@{/admin/users}" class="flex items-center px-4 py-2 rounded-lg text-gray-300 hover:bg-gray-700 hover:text-white transition duration-150">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 mr-3" viewBox="0 0 24 24" fill="currentColor"><path d="M19 8H5c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-5 11H8v-2h6v2zm4-4H8v-2h10v2zm0-4H8v-2h10v2z"/></svg>
+                Người dùng
+            </a>
+        </nav>
+    </aside>
+
+    <div class="flex-1 p-8">
+        <div class="max-w-3xl bg-white rounded-xl shadow-xl p-8 mx-auto">
+            <h2 class="text-2xl font-bold text-gray-800 mb-6" th:text="${song.songId} == null ? 'Thêm bài hát mới' : 'Sửa bài hát'">Thêm bài hát</h2>
+
+            <form th:action="@{/admin/songs/save}" th:object="${song}" method="post" enctype="multipart/form-data" class="space-y-6">
+                <input type="hidden" th:field="*{songId}" />
+
+                <div>
+                    <label class="block text-sm font-medium mb-1 text-gray-800">Tiêu đề</label>
+                    <input type="text" th:field="*{title}" class="w-full border border-gray-300 focus:border-primary focus:ring-1 focus:ring-primary rounded-lg px-4 py-2 transition duration-150" required />
+                </div>
+
+                <div class="p-4 border border-dashed border-gray-300 rounded-lg bg-gray-50">
+                    <label class="block text-sm font-medium mb-2 text-gray-800">File nhạc</label>
+
+                    <div th:if="${song.file != null and song.file != ''}" class="mb-3 text-xs text-gray-600 p-2 bg-yellow-100 rounded">
+                        Đường dẫn hiện tại: <span th:text="${song.file}" class="font-mono text-yellow-800"></span>
+                    </div>
+
+                    <div class="flex flex-col gap-3">
+                        <input type="file" th:field="*{fileData}" accept="audio/*" class="w-full file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-primary/10 file:text-primary hover:file:bg-primary/20 transition duration-150" />
+                        <input type="hidden" th:field="*{file}" />
+                    </div>
+                    <p class="text-xs text-gray-500 mt-2">Upload file MP3 mới sẽ ghi đè file cũ. File sẽ được lưu vào `/uploads/music`.</p>
+                </div>
+
+                <div class="p-4 border border-dashed border-gray-300 rounded-lg bg-gray-50">
+                    <label class="block text-sm font-medium mb-2 text-gray-800">Ảnh bìa</label>
+
+                    <div th:if="${song.cover != null and song.cover != ''}" class="mb-3 flex items-center gap-3">
+                        <img th:src="@{${song.cover}}" alt="cover" class="w-16 h-16 rounded-md object-cover shadow-md" />
+                        <div class="text-xs text-gray-600">Đường dẫn hiện tại: <span th:text="${song.cover}" class="font-mono text-yellow-800"></span></div>
+                    </div>
+
+                    <div class="flex flex-col gap-3">
+                        <input type="file" th:field="*{coverData}" accept="image/*" class="w-full file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-primary/10 file:text-primary hover:file:bg-primary/20 transition duration-150" />
+                        <input type="hidden" th:field="*{cover}" />
+                    </div>
+                    <p class="text-xs text-gray-500 mt-2">Upload ảnh mới sẽ ghi đè ảnh cũ. Ảnh sẽ được lưu vào `/uploads/cover`.</p>
+                </div>
+
+                <div class="grid grid-cols-2 gap-6">
+                    <div>
+                        <label class="block text-sm font-medium mb-1 text-gray-800">Artist ID</label>
+                        <input type="number" th:field="*{artistId}" class="w-full border border-gray-300 focus:border-primary focus:ring-1 focus:ring-primary rounded-lg px-4 py-2 transition duration-150" required />
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium mb-1 text-gray-800">Lượt phát</label>
+                        <input type="number" th:field="*{playCount}" class="w-full border border-gray-300 focus:border-primary focus:ring-1 focus:ring-primary rounded-lg px-4 py-2 transition duration-150" />
+                    </div>
+                </div>
+
+                <div class="flex items-center gap-3 justify-end pt-4 border-t border-gray-100">
+                    <a th:href="@{/admin/songs}" class="px-5 py-2 bg-gray-200 text-gray-700 rounded-lg font-medium hover:bg-gray-300 transition duration-150">Hủy</a>
+                    <button type="submit" class="px-5 py-2 bg-primary text-white rounded-lg font-medium shadow-lg shadow-primary/30 hover:shadow-primary/50 transition duration-200">Lưu bài hát</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>

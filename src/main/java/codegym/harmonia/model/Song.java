@@ -9,6 +9,8 @@ import java.util.List;
 @Entity
 @Table(name = "song")
 @Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -25,6 +27,7 @@ public class Song {
     private LocalDateTime createdAt;
     private String contentType;
     private Long size;
+    private Integer duration;
 
     // N-1: một bài hát phải thuộc về 1 nghệ sĩ (User có role=ARTIST)
     @ManyToOne

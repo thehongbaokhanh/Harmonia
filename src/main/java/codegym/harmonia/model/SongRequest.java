@@ -9,8 +9,10 @@ import java.time.LocalDateTime;
 public class SongRequest {
     private Long songId;
     private String title;
-    private MultipartFile file;
-    private MultipartFile cover;
+    private MultipartFile fileData;
+    private MultipartFile coverData;
+    private String file;
+    private String cover;
     private Integer playCount;
     private Long artistId;
 }

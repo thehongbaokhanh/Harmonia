@@ -1,6 +1,7 @@
 package codegym.harmonia.service.favorite;
 
 import codegym.harmonia.model.Favorite;
+import codegym.harmonia.model.Song;
 import codegym.harmonia.repository.IFavoritedRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -35,8 +36,9 @@ public class FavoriteService implements IFavoriteService {
 
     @Override
     public Optional<Favorite> findById(Long id) {
-        return null;
+        return Optional.empty();
     }
+
 
     @Override
     public Favorite save(Favorite favorite) {

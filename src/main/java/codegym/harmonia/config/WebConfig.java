@@ -20,6 +20,7 @@ public class WebConfig implements WebMvcConfigurer {
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        // Map URL /uploads/** tới thư mục uploads trên ổ đĩa
         registry.addResourceHandler("/uploads/**")
                 .addResourceLocations("file:uploads/");
     }

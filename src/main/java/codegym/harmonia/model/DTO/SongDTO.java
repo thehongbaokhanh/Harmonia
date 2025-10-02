@@ -17,4 +17,5 @@ public class SongDTO {
     private Integer playCount;
     private LocalDateTime createdAt;
     private String artistName;
+    private Integer duration;
 }

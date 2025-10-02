@@ -1,5 +1,7 @@
 package codegym.harmonia.service;
 
+import codegym.harmonia.model.Song;
+
 import java.util.List;
 import java.util.Optional;
 

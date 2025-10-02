@@ -51,14 +51,14 @@ public class SongController {
     public ResponseEntity<?> saveSong(
             @RequestParam("title") String title,
             @RequestParam("artistId") Long artistId,
-            @RequestParam("file") MultipartFile file,
-            @RequestParam("cover") MultipartFile cover
+            @RequestParam("file") MultipartFile fileData,
+            @RequestParam("cover") MultipartFile coverData
     ) {
         try {
             SongRequest songRequest = new SongRequest();
             songRequest.setTitle(title);
-            songRequest.setFile(file);
-            songRequest.setCover(cover);
+            songRequest.setFileData(fileData);
+            songRequest.setCoverData(fileData);
             songRequest.setArtistId(artistId);
             songRequest.setPlayCount(0);
             return ResponseEntity.ok(iSongService.save(songRequest));
@@ -72,8 +72,8 @@ public class SongController {
             @PathVariable Long id,
             @RequestParam("title") String title,
             @RequestParam("artistId") Long artistId,
-            @RequestParam("file") MultipartFile file,
-            @RequestParam("cover") MultipartFile cover
+            @RequestParam("file") MultipartFile fileData,
+            @RequestParam("cover") MultipartFile coverData
     ) throws IOException {
         Optional<Song> optionalSong = iSongService.findById(id);
         if (optionalSong.isPresent()) {
@@ -82,8 +82,8 @@ public class SongController {
             System.out.println(updatedSong.getPlayCount());
             updatedSong.setSongId(id);
             updatedSong.setTitle(title);
-            updatedSong.setFile(file);
-            updatedSong.setCover(cover);
+            updatedSong.setFileData(fileData);
+            updatedSong.setCoverData(coverData);
             updatedSong.setArtistId(artistId);
             return ResponseEntity.ok(iSongService.save(updatedSong));
         } else {
