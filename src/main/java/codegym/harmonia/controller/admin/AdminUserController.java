@@ -20,14 +20,14 @@ public class AdminUserController {
     public String listUsers(Model model) {
         List<User> users = userService.findAll();
         model.addAttribute("users", users);
-        return "admin/user/user-list";
+        return "user/user-list";
     }
 
     // 👉 Thêm mới user
     @GetMapping("/create")
     public String createUserForm(Model model) {
         model.addAttribute("user", new User());
-        return "admin/user/user-form";
+        return "user/user-form";
     }
 
     @GetMapping("/edit/{id}")
@@ -37,7 +37,7 @@ public class AdminUserController {
             return "redirect:/admin/users";
         }
         model.addAttribute("user", user);
-        return "admin/user/user-form";
+        return "user/user-form";
     }
 
     @PostMapping("/save")

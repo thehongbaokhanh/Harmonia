@@ -21,14 +21,14 @@ public class AdminArtistController {
     public String listArtists(Model model) {
         List<User> artists = userService.findByRole(UserRole.ARTIST);
         model.addAttribute("artists", artists);
-        return "admin/user/artist-list";
+        return "user/artist-list";
     }
 
     // 👉 Thêm mới nghệ sĩ
     @GetMapping("/add")
     public String addArtistForm(Model model) {
         model.addAttribute("artist", new User());
-        return "admin/user/artist-form";
+        return "user/artist-form";
     }
 
     @GetMapping("/edit/{id}")
@@ -38,7 +38,7 @@ public class AdminArtistController {
             return "redirect:/admin/artists";
         }
         model.addAttribute("artist", artist);
-        return "admin/user/artist-form";
+        return "user/artist-form";
     }
 
     @PostMapping("/save")

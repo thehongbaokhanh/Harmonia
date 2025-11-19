@@ -3,20 +3,28 @@ package codegym.harmonia.controller;
 import codegym.harmonia.model.DTO.LoginRequest;
 import codegym.harmonia.model.DTO.UserDTO;
 import codegym.harmonia.model.User;
+import codegym.harmonia.model.UserRole;
 import codegym.harmonia.service.authenticate.IAuthenticateService;
+import codegym.harmonia.service.user.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
+@Controller
 @RequestMapping("/api/authenticate")
 @CrossOrigin(origins = {"http://localhost:3000", "http://localhost:3001"})
 public class AuthenticateController {
     @Autowired
     private IAuthenticateService authenticateService;
+
 
     @GetMapping
     public ResponseEntity<List<UserDTO>> findAll() {
@@ -28,26 +36,6 @@ public class AuthenticateController {
         return ResponseEntity.ok(userDTOs);
     }
 
-    @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody LoginRequest request) {
-        // Tìm user theo email
-        User user = authenticateService.findByEmail(request.getEmail())
-                .stream()
-                .findFirst()
-                .orElse(null);
-
-        if (user == null) {
-            return ResponseEntity.status(404).body("Email không tồn tại!");
-        }
-
-        if (!user.getPassword().equals(request.getPassword())) {
-            return ResponseEntity.status(401).body("Sai mật khẩu!");
-        }
-
-        // Trả về UserDTO (ẩn mật khẩu)
-        UserDTO dto = authenticateService.getUserDTO(user);
-        return ResponseEntity.ok(dto);
-    }
 
     @PostMapping("/save")
     public ResponseEntity<User> save(@RequestBody User user) {

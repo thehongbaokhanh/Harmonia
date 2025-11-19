@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Harmonia - Đăng ký</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary: #b86bff;
+            --primary-hover: #a24de0;
+            --card-bg: #1c1427;
+            --input-bg: #2b1f3a;
+            --text: #fff;
+            --text-muted: #aaa;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-image: url("https://i.pinimg.com/736x/3e/39/9a/3e399adb2abb31ed1757a25e579c1ce0.jpg");
+            background-size: cover;
+            display: flex; align-items: center; justify-content: center;
+            min-height: 100vh; color: var(--text);
+        }
+        .auth-container {
+            background: var(--card-bg);
+            padding: 40px; width: 100%; max-width: 420px;
+            border-radius: 20px; text-align: center;
+            box-shadow: 0 0 35px rgba(184,107,255,0.25);
+        }
+        h2 { color: var(--primary); font-weight: 600; margin-bottom: 25px; }
+        input {
+            width: 100%; background: var(--input-bg);
+            padding: 12px 14px; margin-bottom: 15px;
+            border: 1px solid transparent; border-radius: 10px;
+            color: var(--text);
+        }
+        button {
+            width: 100%; padding: 12px;
+            background: var(--primary); border-radius: 10px;
+            color: var(--text); font-size: 16px;
+            cursor: pointer; font-weight: 600; border: none;
+        }
+        button:hover { background: var(--primary-hover); }
+        .checkbox { display: flex; align-items: center; gap: 6px; font-size: 14px; color: var(--text-muted); }
+        a { color: var(--primary); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+
+        .error-message {
+            color: #ff9a9a;
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="auth-container">
+
+    <h2>Tạo tài khoản</h2>
+
+    <form id="registerForm" method="post" th:action="@{/user/signIn/register}">
+        <input type="text" name="fullName" placeholder="Họ và tên" required>
+        <input type="email" name="email" placeholder="Email" required>
+        <input type="password" name="password" placeholder="Mật khẩu" required>
+        <input type="password" name="confirmPassword" placeholder="Xác nhận mật khẩu" required>
+
+        <div class="checkbox" style="margin-top: 10px;">
+            <label style="cursor: pointer;">
+                <input type="checkbox" id="agree">
+                Tôi đồng ý với
+                <a href="/user/signIn/clause" target="_blank">Điều khoản & Chính sách</a>
+            </label>
+        </div>
+
+        <p id="agree-error" class="error-message" style="display:none;">
+            Bạn phải đồng ý trước khi đăng ký.
+        </p>
+
+        <button type="submit">Đăng ký</button>
+
+        <p style="margin-top: 15px;">
+            Đã có tài khoản?
+            <a href="/user/signIn/view/login">Đăng nhập</a>
+        </p>
+    </form>
+</div>
+
+<script>
+    const form = document.getElementById("registerForm");
+    const agree = document.getElementById("agree");
+    const error = document.getElementById("agree-error");
+
+    form.addEventListener("submit", function (e) {
+        if (!agree.checked) {
+            e.preventDefault();
+            error.style.display = "block";
+        }
+    });
+</script>
+
+</body>
+</html>
